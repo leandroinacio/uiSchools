@@ -3,31 +3,28 @@
 	angular.module('schools', ['ui.router']).config(schoolsConfig);
 	
 	// Configure application defaults
-	function schoolsConfig($stateProvider, $urlRouterProvider) {
+	function schoolsConfig($stateProvider, $urlRouterProvider, $locationProvider) {
 		
 		// Routing...
-		var states = ['topics', 'questions', 'students', 'classrooms'];
+		$locationProvider.hashPrefix('');
 		
-		function setState(state) {
-			$stateProvider.state(state, {
-	            url: '/' + state,
-	            templateUrl: 'view/' + state + '.html'
-	        });
-		};
-		
-		$stateProvider.state('index', {
-            url: '/index',
-            templateUrl: 'index.html'
-        });
-		
-		states.map(function(state) {
-			setState(state);
-		});
-
 		// Set default and initial page
-		$urlRouterProvider.otherwise('/index');
+		$urlRouterProvider.otherwise('/');
 		
-		
+		// Setup states
+		$stateProvider.state('index', {
+            url: '/',
+            templateUrl: 'view/topics/topics.list.html'
+        })
+        .state('topics', {
+        	url: '/topics',
+            templateUrl: 'view/topics/topics.list.html'
+        })
+        .state('createTopic', {
+        	url: '/createTopic',
+            templateUrl: 'view/topics/topics.create.html'
+        });
+	
 	};
 	
 })();
